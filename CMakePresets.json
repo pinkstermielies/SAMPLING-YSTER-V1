@@ -1,0 +1,41 @@
+{
+  "version": 3,
+  "cmakeMinimumRequired": { "major": 3, "minor": 22, "patch": 0 },
+  "configurePresets": [
+    {
+      "name": "linux-core",
+      "displayName": "Linux: portable core + tests (no JUCE, no network)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/Builds/linux-core",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "PSM_BUILD_APP": "OFF", "PSM_BUILD_TESTS": "ON" },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
+    },
+    {
+      "name": "linux-app",
+      "displayName": "Linux: JUCE app development build (downloads JUCE)",
+      "generator": "Ninja",
+      "binaryDir": "${sourceDir}/Builds/linux-app",
+      "cacheVariables": { "CMAKE_BUILD_TYPE": "Debug", "PSM_BUILD_APP": "ON", "PSM_BUILD_TESTS": "ON" },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" }
+    },
+    {
+      "name": "windows-release",
+      "displayName": "Windows: Visual Studio 2022 x64 (Release EXE)",
+      "generator": "Visual Studio 17 2022",
+      "architecture": { "value": "x64", "strategy": "set" },
+      "binaryDir": "${sourceDir}/Builds/windows",
+      "cacheVariables": { "PSM_BUILD_APP": "ON", "PSM_BUILD_TESTS": "ON" },
+      "condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" }
+    }
+  ],
+  "buildPresets": [
+    { "name": "linux-core", "configurePreset": "linux-core" },
+    { "name": "linux-app", "configurePreset": "linux-app" },
+    { "name": "windows-release", "configurePreset": "windows-release", "configuration": "Release" }
+  ],
+  "testPresets": [
+    { "name": "linux-core", "configurePreset": "linux-core", "output": { "outputOnFailure": true } },
+    { "name": "linux-app", "configurePreset": "linux-app", "output": { "outputOnFailure": true } },
+    { "name": "windows-release", "configurePreset": "windows-release", "configuration": "Release", "output": { "outputOnFailure": true } }
+  ]
+}

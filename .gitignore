@@ -1,0 +1,7 @@
+Builds/*
+!Builds/.gitkeep
+*.tmp
+*.user
+.vs/
+.vscode/
+CMakeUserPresets.json
